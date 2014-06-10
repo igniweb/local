@@ -26,6 +26,6 @@ return array(
     |
     */
 
-    'email' => 'igniwebb.net@gmail.com',
+    'email' => 'igniweb.net@gmail.com',
 
 );
