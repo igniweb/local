@@ -1,5 +1,6 @@
 <?php namespace Local\Services\LangPoConverter\Parsers;
 
+use Exception;
 use Local\Services\LangPoConverter\ParserInterface;
 
 class PoParser implements ParserInterface {
@@ -12,76 +13,74 @@ class PoParser implements ParserInterface {
     {
         $this->path = $path;
 
-        $this->indexDirectory($this->path . '/app');
-
-        if (is_dir($this->path . '/workbench'))
-        {
-            $this->indexDirectory($this->path . '/workbench');
-        }
+        $this->indexDirectory($this->path);
 
         return $this->langs;
     }
 
     private function indexDirectory($path)
     {
-        $directories = glob($path . '/*', GLOB_ONLYDIR);
-        foreach ($directories as $directory)
-        {
-            if (basename($directory) === 'lang')
-            {
-                $this->indexLangDirectory($directory);
-            }
-
-            $this->indexDirectory($directory);
-        }
-    }
-
-    private function indexLangDirectory($path)
-    {
-        $langDirectories = glob($path . '/*', GLOB_ONLYDIR);
-        foreach ($langDirectories as $langDirectory)
-        {
-            $langIso = $this->getLangIso(basename($langDirectory));
-            if ( ! empty($langIso))
-            {
-                $this->indexLangIsoDirectory($langDirectory, $langIso);
-            }
-        }
-    }
-
-    private function indexLangIsoDirectory($path, $langIso)
-    {
-        $files = glob($path . '/*.php');
+        $files = glob($path . '/*.po');
         foreach ($files as $file)
         {
-            $lang = include $file;
-            if ( ! empty($lang) and is_array($lang))
+            $lang = $this->getLangFromFilename(basename($file));
+            if (empty($lang))
             {
-                $this->langs[$langIso][$this->getFileKey($file)] = array_dot($lang);
+                throw new Exception('Unable to guess lang from filename [' . $file . ']');
+            }
+
+            $this->indexFile($file, $lang);
+        }
+    }
+
+    private function getLangFromFilename($filename)
+    {   // laravel-en_US.po
+        $dots = explode('.', $filename);
+        if (count($dots) == 2)
+        {   // laravel-en_US
+            $dashs = explode('-', $dots[0]);
+            if (count($dashs) == 2)
+            {   // en_US
+                $unders = explode('_', $dashs[1]);
+                if (count($unders) == 2)
+                {   // en
+                    return $unders[0];
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private function indexFile($file, $lang)
+    {
+        $entries      = explode("\n#: ", str_replace("\r\n", "\n", file_get_contents($file)));
+        $countEntries = count($entries);
+        if ($countEntries > 0)
+        {   // Skip header
+            for ($i = 1 ; $i < $countEntries ; $i++)
+            {
+                $this->indexEntry($entries[$i], $lang);
             }
         }
     }
 
-    private function getLangIso($lang)
+    private function indexEntry($entry, $lang)
     {
-        switch ($lang)
-        {
-            case 'en':
-                $langIso = 'en_US';
-                break;
-            case 'fr':
-                $langIso = 'fr_FR';
-                break;
-            default:
-                $langIso = false;
+        $lines = explode("\n", $entry);
+        if (count($lines) == 4)
+        {   // /path/to/file:key
+            $dots = explode(":", $lines[0]);
+            if (count($dots) != 2)
+            {
+                throw new Exception('Entry does not contains filename:key couple [' . $lines[0] . ']');
+            }
+
+            // msgstr "..."
+            $trans = substr($lines[2], 8, -1);
+
+            array_set($this->langs[$lang][$dots[0]], $dots[1], $trans);
         }
-
-        return $langIso;
-    }
-
-    private function getFileKey($file)
-    {
-        return str_replace(DIRECTORY_SEPARATOR, '/', substr($file, strlen($this->path)));
     }
 
 }

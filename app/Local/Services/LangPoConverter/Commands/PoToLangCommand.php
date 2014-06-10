@@ -38,7 +38,7 @@ class PoToLangCommand extends Command
             }
             else
             {
-                $this->converter->write($path, $langs);
+                //$this->converter->write($path, $langs);
                 $this->info('Generated files have been placed accordingly from base [' . $path . ']');
             }
         }
