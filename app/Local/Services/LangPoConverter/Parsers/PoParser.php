@@ -5,15 +5,11 @@ use Local\Services\LangPoConverter\ParserInterface;
 
 class PoParser implements ParserInterface {
 
-    private $path;
-
     private $langs = [];
 
     public function index($path)
     {
-        $this->path = $path;
-
-        $this->indexDirectory($this->path);
+        $this->indexDirectory($path);
 
         return $this->langs;
     }
