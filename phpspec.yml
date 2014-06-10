@@ -1,0 +1,7 @@
+formatter.name: pretty
+suites:
+  local_suite:
+    namespace: Local
+    src_path: app
+    spec_path: app
+    spec_prefix: spec
