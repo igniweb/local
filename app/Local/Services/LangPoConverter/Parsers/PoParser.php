@@ -1,6 +1,8 @@
-<?php namespace Local\Services\LangPoConverter\Converters\Parsers;
+<?php namespace Local\Services\LangPoConverter\Parsers;
 
-class LangParser {
+use Local\Services\LangPoConverter\ParserInterface;
+
+class PoParser implements ParserInterface {
 
     private $path;
 

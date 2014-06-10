@@ -1,7 +1,9 @@
 <?php namespace Local\Services\LangPoConverter\Commands;
 
 use Illuminate\Console\Command;
-use Local\Services\LangPoConverter\Converters\LangToPoConverter;
+use Local\Services\LangPoConverter\LangPoConverter;
+use Local\Services\LangPoConverter\Parsers\LangParser;
+use Local\Services\LangPoConverter\Writers\PoWriter;
 use Symfony\Component\Console\Input\InputOption;
 
 class LangToPoCommand extends Command
@@ -13,9 +15,9 @@ class LangToPoCommand extends Command
 
     protected $converter;
 
-    public function __construct(LangToPoConverter $converter)
+    public function __construct(array $config)
     {
-        $this->converter = $converter;
+        $this->converter = new LangPoConverter(new LangParser, new PoWriter($config));
 
         parent::__construct();
     }
@@ -24,20 +26,19 @@ class LangToPoCommand extends Command
     {
         $path = base_path();
 
-        $this->line('Scan [' . $path . '] directory');
+        $this->line('Scan [' . $path . '] directory for lang/ directories');
         
-        $indexed = $this->converter->parse($path, true);
+        $langs = $this->converter->parse($path, true);
 
-        if ( ! empty($indexed))
+        if ( ! empty($langs))
         {
             if ($this->option('dry-run'))
             {
-                print_r($indexed);
-                echo PHP_EOL;
+                print_r($langs);
             }
             else
             {
-                $this->converter->write($path, $indexed);
+                $this->converter->write($path, $langs);
                 $this->info('Generated files have been placed in [' . $path . ']');
             }
         }

@@ -1,15 +1,10 @@
-<?php
-namespace Local\Services\LangPoConverter\Converters\Writers;
+<?php namespace Local\Services\LangPoConverter\Writers;
 
-class PoWriter
-{
+use Local\Services\LangPoConverter\WriterInterface;
+
+class LangWriter implements WriterInterface {
 
     protected $config;
-
-    public function __construct(array $config)
-    {
-        $this->config = $config;
-    }
 
     public function dump($path, $langs = [])
     {

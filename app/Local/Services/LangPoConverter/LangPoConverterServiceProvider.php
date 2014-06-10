@@ -14,21 +14,22 @@ class LangPoConverterServiceProvider extends ServiceProvider
 
     public function provides()
     {
-        return ['local.commands.lang-to-po'];
+        return ['local.commands.lang-to-po', 'local.commands.po-to-lang'];
     }
 
     private function registerCommands()
     {
         $this->app['local.commands.lang-to-po'] = $this->app->share(function($app)
         {
-            return new Commands\LangToPoCommand(
-                new Converters\LangToPoConverter(
-                    new Converters\Parsers\LangParser,
-                    new Converters\Writers\PoWriter($app['config']['workbench'])
-                )
-            );
+            return new Commands\LangToPoCommand($app['config']['workbench']);
         });
         $this->commands('local.commands.lang-to-po');
+
+        $this->app['local.commands.po-to-lang'] = $this->app->share(function($app)
+        {
+            return new Commands\PoToLangCommand;
+        });
+        $this->commands('local.commands.po-to-lang');
     }
 
 }
