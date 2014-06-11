@@ -4,51 +4,55 @@ use Local\Services\LangPoConverter\WriterInterface;
 
 class LangWriter implements WriterInterface {
 
-    protected $config;
-
     public function dump($path, $langs = [])
     {
         if ( ! empty($langs))
         {
-            foreach ($langs as $langIso => $files)
+            foreach ($langs as $files)
             {
-                $content = $this->headers($path, $langIso);
-                foreach ($files as $fileId => $fileEntries)
+                foreach ($files as $filePath => $translations)
                 {
-                    foreach ($fileEntries as $key => $val)
-                    {
-                        $content .= $this->entry($fileId, $key, $val);
-                    }
+                    $content  = "<?php\n\nreturn [\n\n";
+                    $content .= $this->dumpArray($translations);
+                    $content .= "\n];\n";
+
+                    $filePath = $path . $filePath;
+                    $this->writeFile($filePath, $content);
                 }
-                file_put_contents($path . '/laravel-' . $langIso . '.po', $content);
             }
         }
     }
 
-    private function headers($path, $langIso)
+    private function dumpArray($translations, $indent = 1, & $dump = '')
     {
-        $headers[] = 'msgid ""';
-        $headers[] = 'msgstr ""';
-        $headers[] = '"Project-Id-Version: ' . strtoupper(basename($path)) . '\\n"';
-        $headers[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\\n"';
-        $headers[] = '"PO-Revision-Date: ' . date('Y-m-d H:iO') . '\\n"';
-        $headers[] = '"Last-Translator: ' . $this->config['name'] . ' <' . $this->config['email'] . '>\\n"';
-        $headers[] = '"Language-Team: ' . $this->config['name'] . ' <' . $this->config['email'] . '>\\n"';
-        $headers[] = '"Language: ' . $langIso . '\\n"';
-        $headers[] = '"MIME-Version: 1.0\\n"';
-        $headers[] = '"Content-Type: text/plain; charset=UTF-8\\n"';
-        $headers[] = '"Content-Transfer-Encoding: 8bit\\n"';
+        foreach ($translations as $key => $val)
+        {
+            $dump .= str_repeat("\t", $indent) . "'" . $key . "' => ";
+            if (is_array($val))
+            {
+                $dump .= "[\n";
+                $this->dumpArray($val, $indent + 1, $dump);
+                $dump .= str_repeat("\t", $indent) . "],\n";
+            }
+            else
+            {
+                $dump .= "'" . str_replace("'", "\'", $val) . "',\n";
+            }
+        }
 
-        return implode("\n", $headers) . "\n\n";
+        return $dump;
     }
 
-    private function entry($fileId, $key, $val)
+    private function writeFile($filePath, $content)
     {
-        $entry[] = '#: ' . $fileId . ':' . $key;
-        $entry[] = 'msgid "' . $val . '"';
-        $entry[] = 'msgstr "' . $val . '"';
+        $fileDir = dirname($filePath);
+        if ( ! is_dir($fileDir))
+        {
+            mkdir(dirname($fileDir), 0755, true);
+        }
 
-        return implode("\n", $entry) . "\n\n";
+        echo $content . PHP_EOL;
+        //file_put_contents($filePath, $content);
     }
 
 }

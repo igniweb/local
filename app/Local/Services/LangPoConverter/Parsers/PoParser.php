@@ -73,9 +73,9 @@ class PoParser implements ParserInterface {
             }
 
             // msgstr "..."
-            $trans = substr($lines[2], 8, -1);
+            $translation = substr($lines[2], 8, -1);
 
-            array_set($this->langs[$lang][$dots[0]], $dots[1], $trans);
+            array_set($this->langs[$lang][$dots[0]], $dots[1], $translation);
         }
     }
 
