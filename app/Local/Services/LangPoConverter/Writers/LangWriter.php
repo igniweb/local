@@ -25,9 +25,11 @@ class LangWriter implements WriterInterface {
 
     private function dumpArray($translations, $indent = 1, & $dump = '')
     {
+        $keyMaxLen = $this->getKeyMaxLen($translations);
+
         foreach ($translations as $key => $val)
         {
-            $dump .= str_repeat("\t", $indent) . "'" . $key . "' => ";
+            $dump .= str_repeat("\t", $indent) . "'" . $key . "'" . str_repeat(" ", $keyMaxLen - strlen($key)) . " => ";
             if (is_array($val))
             {
                 $dump .= "[\n";
@@ -36,11 +38,23 @@ class LangWriter implements WriterInterface {
             }
             else
             {
-                $dump .= "'" . str_replace("'", "\'", $val) . "',\n";
+                $dump .= "'" . str_replace("'", "\\'", $val) . "',\n";
             }
         }
 
         return $dump;
+    }
+
+    private function getKeyMaxLen($translations)
+    {
+        $max = 0;
+
+        foreach ($translations as $key => $val)
+        {
+            $max = max($max, strlen($key));
+        }
+
+        return $max;
     }
 
     private function writeFile($filePath, $content)
@@ -51,8 +65,7 @@ class LangWriter implements WriterInterface {
             mkdir(dirname($fileDir), 0755, true);
         }
 
-        echo $content . PHP_EOL;
-        //file_put_contents($filePath, $content);
+        file_put_contents($filePath, $content);
     }
 
 }

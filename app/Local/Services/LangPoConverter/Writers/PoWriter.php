@@ -15,6 +15,12 @@ class PoWriter implements WriterInterface {
     {
         if ( ! empty($langs))
         {
+            $i18nPath = $path . '/i18n';
+            if ( ! is_dir($i18nPath))
+            {
+                mkdir($i18nPath, 0755, true);
+            }
+
             foreach ($langs as $langIso => $files)
             {
                 $content = $this->headers($path, $langIso);
@@ -25,7 +31,8 @@ class PoWriter implements WriterInterface {
                         $content .= $this->entry($fileId, $key, $val);
                     }
                 }
-                file_put_contents($path . '/laravel-' . $langIso . '.po', $content);
+
+                file_put_contents($i18nPath . '/' . basename($path) . '-' . $langIso . '.po', $content);
             }
         }
     }

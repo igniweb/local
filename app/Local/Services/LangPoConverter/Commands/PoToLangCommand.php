@@ -26,7 +26,7 @@ class PoToLangCommand extends Command
     {
         $path = base_path();
 
-        $this->line('Scan [' . $path . '] directory for PO files');
+        $this->line('Scan [' . $path . DIRECTORY_SEPARATOR . 'i18n] directory for PO files');
 
         $langs = $this->converter->parse($path, true);
 

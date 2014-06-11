@@ -39,7 +39,7 @@ class LangToPoCommand extends Command
             else
             {
                 $this->converter->write($path, $langs);
-                $this->info('Generated files have been placed in [' . $path . ']');
+                $this->info('Generated files have been placed in [' . $path . DIRECTORY_SEPARATOR . 'i18n]');
             }
         }
         else

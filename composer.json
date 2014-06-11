@@ -4,7 +4,9 @@
         "laravel/framework": "4.2.*"
     },
     "require-dev": {
-        "phpspec/phpspec": "dev-master"
+        "phpunit/phpunit": "4.1.*",
+        "mockery/mockery": "dev-master",
+        "mikey179/vfsstream": "dev-master"
     },
     "autoload": {
         "classmap": [

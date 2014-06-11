@@ -16,7 +16,7 @@ class PoParser implements ParserInterface {
 
     private function indexDirectory($path)
     {
-        $files = glob($path . '/*.po');
+        $files = glob($path . '/i18n/*.po');
         foreach ($files as $file)
         {
             $lang = $this->getLangFromFilename(basename($file));
