@@ -11,7 +11,7 @@ class PoWriter implements WriterInterface {
         $this->config = $config;
     }
 
-    public function dump($path, $langs = [])
+    public function dump($path, array $langs = [])
     {
         if ( ! empty($langs))
         {

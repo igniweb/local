@@ -2,6 +2,6 @@
 
 interface WriterInterface {
 
-    public function dump($path, $langs);
+    public function dump($path, array $langs);
 
 }

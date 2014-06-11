@@ -1,4 +1,6 @@
+/.idea
 /bootstrap/compiled.php
+/i18n
 /node_modules
 /public/vendor
 /vendor

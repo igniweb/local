@@ -25,6 +25,8 @@ class LangPoConverter {
         {
             return $this->langs;
         }
+
+        return ! empty($this->langs) ? true : false;
     }
 
     public function write($path)
