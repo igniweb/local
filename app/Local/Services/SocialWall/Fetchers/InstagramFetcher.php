@@ -11,7 +11,7 @@ class InstagramFetcher extends AbstractFetcher {
         $this->api = new InstagramApi;
     }
 
-    protected function fetch($id)
+    protected function fetch($id, $account)
     {
         return $this->api->query('users/' . $id . '/media/recent');
     }
@@ -21,14 +21,14 @@ class InstagramFetcher extends AbstractFetcher {
         return $data;
     }
 
-    protected function parseItem($item, $userId)
+    protected function parseItem($item, $accountId)
     {
         $media = $this->getMedia($item);
 
         return [
             'type'        => 'instagram',
             'type_id'     => $item->id,
-            'user_id'     => $userId,
+            'account_id'  => $accountId,
             'url'         => $item->link,
             'title'       => null,
             'content'     => ! empty($item->caption->text) ? $this->clean($item->caption->text) : null,

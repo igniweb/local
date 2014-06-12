@@ -12,7 +12,7 @@ class CreateSocialItemsTable extends Migration {
 			$table->increments('id');
 		    $table->enum('type', ['twitter', 'instagram', 'facebook'])->index();
 		    $table->string('type_id', 128);
-		    $table->integer('user_id')->unsigned()->index();
+		    $table->integer('account_id')->unsigned()->index();
 		    $table->string('url');
 		    $table->string('title')->nullable();
 		    $table->text('content')->nullable();

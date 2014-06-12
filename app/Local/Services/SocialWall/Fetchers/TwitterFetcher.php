@@ -11,7 +11,7 @@ class TwitterFetcher extends AbstractFetcher {
         $this->api = new TwitterApi;
     }
 
-    protected function fetch($id)
+    protected function fetch($id, $account)
     {
         $data = $this->api->getUserTimeline([
             'screen_name'     => $id,
@@ -38,7 +38,7 @@ class TwitterFetcher extends AbstractFetcher {
         return $items;
     }
 
-    protected function parseItem($item, $userId)
+    protected function parseItem($item, $accountId)
     {
         if ( ! empty($item->retweeted_status))
         {
@@ -50,7 +50,7 @@ class TwitterFetcher extends AbstractFetcher {
         return [
             'type'        => 'twitter',
             'type_id'     => $item->id_str,
-            'user_id'     => $userId,
+            'account_id'  => $accountId,
             'url'         => 'https://twitter.com/' . $item->user->id_str . '/status/' . $item->id_str,
             'title'       => null,
             'content'     => $this->clean($item->text),

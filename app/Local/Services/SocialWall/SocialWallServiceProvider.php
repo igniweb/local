@@ -1,8 +1,8 @@
 <?php namespace Local\Services\SocialWall;
 
 use Illuminate\Support\ServiceProvider;
-use Local\Services\SocialWall\Repositories\Models\SocialUser;
-use Local\Services\SocialWall\Repositories\SocialUserRepository;
+use Local\Services\SocialWall\Repositories\Models\SocialAccount;
+use Local\Services\SocialWall\Repositories\SocialAccountRepository;
 
 class SocialWallServiceProvider extends ServiceProvider {
 
@@ -22,7 +22,7 @@ class SocialWallServiceProvider extends ServiceProvider {
     {
         $this->app['local.commands.social-wall-fetch'] = $this->app->share(function($app)
         {
-            return new Commands\FetchCommand(new SocialUserRepository(new SocialUser));
+            return new Commands\FetchCommand(new SocialAccountRepository(new SocialAccount));
         });
         $this->commands('local.commands.social-wall-fetch');
     }

@@ -7,11 +7,11 @@ abstract class AbstractFetcher implements FetcherInterface {
 
     protected $limit = 30;
 
-    public function run($id, $user)
+    public function run($id, $account)
     {
         $socialItems = [];
 
-        $data = $this->fetch($id);
+        $data = $this->fetch($id, $account);
         if ( ! empty($data))
         {
             $items = $this->parse($data);
@@ -19,7 +19,8 @@ abstract class AbstractFetcher implements FetcherInterface {
             {
                 foreach ($items as $item)
                 {
-                    $socialItems[] = $this->parseItem($item, $user['id']);
+                    $socialItems[] = $this->parseItem($item, $account['id']);
+dd($socialItems);
                 }
             }
         }
@@ -27,11 +28,11 @@ abstract class AbstractFetcher implements FetcherInterface {
         return $socialItems;
     }
 
-    abstract protected function fetch($id);
+    abstract protected function fetch($id, $account);
 
     abstract protected function parse($data);
 
-    abstract protected function parseItem($item, $userId);
+    abstract protected function parseItem($item, $accountId);
 
     protected function clean($str)
     {

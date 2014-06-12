@@ -3,7 +3,7 @@
 use Exception;
 use Illuminate\Console\Command;
 use InvalidArgumentException;
-use Local\Services\SocialWall\Repositories\SocialUserRepository;
+use Local\Services\SocialWall\Repositories\SocialAccountRepository;
 use Symfony\Component\Console\Input\InputOption;
 
 class FetchCommand extends Command {
@@ -12,15 +12,15 @@ class FetchCommand extends Command {
 
     protected $description = 'Fetch social items in live';
 
-    protected $socialUserRepository;
+    protected $socialAccountRepository;
 
     private $socialWall = null;
 
-    public function __construct(SocialUserRepository $socialUserRepository)
+    public function __construct(SocialAccountRepository $socialAccountRepository)
     {
         parent::__construct();
 
-        $this->socialUserRepository = $socialUserRepository;
+        $this->socialAccountRepository = $socialAccountRepository;
     }
 
     public function fire()
@@ -30,7 +30,7 @@ class FetchCommand extends Command {
 
         try
         {
-            $accounts = $this->socialUserRepository->getAccounts($type);
+            $accounts = $this->socialAccountRepository->getByType($type);
         }
         catch (InvalidArgumentException $exception)
         {
@@ -45,21 +45,21 @@ class FetchCommand extends Command {
                 $this->comment('Fetch social items [' . $type . ']');
             }
 
-            foreach ($accounts as $id => $user)
+            foreach ($accounts as $id => $account)
             {
                 if ($debug)
                 {
-                    $this->line('Fetch [' . $user['name'] . '] account');
+                    $this->line('Fetch [' . $account['name'] . '] account');
                 }
 
-                $this->socialWall->fetch($id, $user);
+                $this->socialWall->fetch($id, $account);
                 if ($this->option('dry-run'))
                 {
                     print_r($this->socialWall->getItems());
                 }
                 else
                 {
-                    $this->socialWall->save();
+//$this->socialWall->save();
                 }
             }
         }

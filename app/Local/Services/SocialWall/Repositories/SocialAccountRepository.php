@@ -2,11 +2,11 @@
 
 use InvalidArgumentException;
 
-class SocialUserRepository {
+class SocialAccountRepository {
 
     protected $model;
 
-    public function __construct(Models\SocialUser $model)
+    public function __construct(Models\SocialAccount $model)
     {
         $this->model = $model;
     }
@@ -26,7 +26,7 @@ class SocialUserRepository {
         return $this->model->where('slug', '=', $slug)->firstOrFail();
     }
 
-    public function getAccounts($type = 'twitter')
+    public function getByType($type = 'twitter')
     {
         $accounts = [];
 
@@ -35,19 +35,16 @@ class SocialUserRepository {
             throw new InvalidArgumentException('Account type is invalid [' . $type . ']');
         }
 
-        $socialUsers = $this->model->whereNotNull($type)->orderBy('name')->get();
-        if ( ! empty($socialUsers))
+        $socialAccounts = $this->model->whereNotNull($type)->orderBy('name')->get();
+        if ( ! empty($socialAccounts))
         {
-            foreach ($socialUsers as $socialUser)
+            foreach ($socialAccounts as $socialAccount)
             {
-                $accounts[$socialUser->$type] = [
-                    'id'   => $socialUser->id,
-                    'name' => $socialUser->name,
+                $accounts[$socialAccount->$type] = [
+                    'id'    => $socialAccount->id,
+                    'name'  => $socialAccount->name,
+                    'metas' => $this->model->getMetas($socialAccount->id),
                 ];
-                if (($type == 'facebook') and ! empty($socialUser->facebook_page))
-                {
-                    $accounts[$socialUser->$type]['page_id'] = $socialUser->facebook_page;
-                }
             }
         }
 

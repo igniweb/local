@@ -1,9 +1,9 @@
 <?php
 
 use Local\Services\SocialWall\Apis\InstagramApi;
-use Local\Services\SocialWall\Repositories\Models\SocialUser;
+use Local\Services\SocialWall\Repositories\Models\SocialAccount;
 
-class SocialUsersTableSeeder extends Seeder {
+class SocialAccountsTableSeeder extends Seeder {
 
     protected $api;
 
@@ -14,7 +14,7 @@ class SocialUsersTableSeeder extends Seeder {
 
     public function run()
     {
-        SocialUser::truncate();
+        SocialAccount::truncate();
 
         $lines = explode("\n", str_replace("\r\n", "\n", trim(file_get_contents(__DIR__ . '/stubs/social_wall.csv'), "\n")));
         if (count($lines) > 1)
@@ -34,24 +34,31 @@ class SocialUsersTableSeeder extends Seeder {
         {
             array_map([$this, 'cleanUrl'], $fields);
 
+            $name      = trim($fields[0]);
             $twitter   = ! empty($fields[1]) ? $this->getTwitter($fields[1])   : null;
             $instagram = ! empty($fields[2]) ? $this->getInstagram($fields[2]) : null;
             $facebook  = ! empty($fields[3]) ? $this->getFacebook($fields[3])  : null;
 
             if ( ! empty($twitter) or ! empty($instagram) or ! empty($facebook))
             {
-                $facebookPage = ! empty($fields[3]) ? $this->isFacebookPage($fields[3]) : null;
-
-                SocialUser::create([
-                    'name'          => trim($fields[0]),
-                    'slug'          => Str::slug($fields[0]),
+                $socialAccount = SocialAccount::create([
+                    'name'          => $name,
+                    'slug'          => Str::slug($name),
                     'twitter'       => $twitter,
                     'instagram'     => $instagram,
                     'facebook'      => $facebook,
-                    'facebook_page' => $facebookPage,
                 ]);
+
+                if ( ! empty($socialAccount))
+                {
+                    $this->setMetas($socialAccount);
+
+                    return $socialAccount;
+                }
             }
         }
+
+        return false;
     }
 
     private function getTwitter($url)
@@ -97,22 +104,6 @@ class SocialUsersTableSeeder extends Seeder {
         return null;
     }
 
-    private function isFacebookPage($url)
-    {
-        if (strpos($url, 'https://www.facebook.com/') === 0)
-        {
-            $url = substr($url, 25);
-            if (strpos($url, 'pages/') === 0)
-            {
-                $segments = explode('/', $url);
-
-                return ! empty($segments[2]) ? $this->removeGet($segments[2]) : null;
-            }
-        }
-
-        return null;
-    }
-
     public function cleanUrl($url)
     {   // Clean a bit and remove last trailing slash
         $url = trim($url, " /");
@@ -132,6 +123,17 @@ class SocialUsersTableSeeder extends Seeder {
         $url = rtrim($url, " /");
 
         return $url;
+    }
+
+    private function setMetas($socialAccount)
+    {
+        // Continue here...
+        // Extract all metas for account
+        // - Instagram: {user-id} + name + icon
+        // - Twitter: name + icon
+        // - Facebook: {page-id} ou {user-id} + name + icon
+        // Delete extra data from social_items table
+        // SocialItemRepository must decorate() or present() an account with typed metas
     }
 
 }

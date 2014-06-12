@@ -18,9 +18,9 @@ class SocialWall {
         $this->socialItemRepository = $socialItemRepository;
     }
 
-    public function fetch($id, $user)
+    public function fetch($id, $account)
     {
-        $this->items = $this->fetcher->run($id, $user);
+        $this->items = $this->fetcher->run($id, $account);
     }
 
     public function getItems()

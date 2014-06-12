@@ -2,6 +2,6 @@
 
 interface FetcherInterface {
 
-    public function run($id, $user);
+    public function run($id, $account);
 
 }
