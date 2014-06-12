@@ -7,4 +7,9 @@ class HomeController extends BaseController {
         return View::make('home.index');
     }
 
+    public function socialWall()
+    {
+        return View::make('home.social-wall');
+    }
+
 }

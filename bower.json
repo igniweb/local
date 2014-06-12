@@ -1,6 +1,6 @@
 {
     "name": "igniweb-local",
     "devDependencies": {
-        "webix": "~1.8.0"
+        "masonry": "~3.1.5"
     }
 }

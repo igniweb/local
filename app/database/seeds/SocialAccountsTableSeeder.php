@@ -2,6 +2,7 @@
 
 use Local\Services\SocialWall\Repositories\Models\SocialAccount;
 use Local\Services\SocialWall\Repositories\Models\SocialAccountMeta;
+use Patchwork\Utf8;
 
 class SocialAccountsTableSeeder extends Seeder {
 
@@ -92,7 +93,7 @@ class SocialAccountsTableSeeder extends Seeder {
                 {
                     if ( ! empty($segments[2]))
                     {
-                        $this->facebookPageId = $segments[2];
+                        $this->facebookPageId = $this->removeGet($segments[2]);
                     }
 
                     return $segments[1];
@@ -162,6 +163,7 @@ class SocialAccountsTableSeeder extends Seeder {
                 {   // Add in database
                     foreach ($accountMetas as $accountMeta)
                     {
+                        $accountMeta['value'] = Utf8::utf8_encode(Utf8::utf8_decode($accountMeta['value']));
                         SocialAccountMeta::create($accountMeta);
                     }
                 }
