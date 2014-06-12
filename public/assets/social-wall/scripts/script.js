@@ -14,13 +14,14 @@ local.SocialWall.Main = function() {
 // Prototype
 local.SocialWall.Main.prototype = {
 
-    $header:   null,
-    $nav:      null,
-    $content:  null,
-    $top:      null,
-    navY:      null,
-    isFixed:   null,
-    scrollTop: null,
+    $header:    null,
+    $nav:       null,
+    $content:   null,
+    $top:       null,
+    navY:       null,
+    isFixed:    null,
+    scrollTop:  null,
+    socialWall: null,
 
     init: function() {
         // Bind events
@@ -38,6 +39,8 @@ local.SocialWall.Main.prototype = {
 
         this.$top = jQuery('#top');
         this.$top.hide();
+
+        this.initMasonry();
     },
 
     onWindowScroll: function() {
@@ -93,6 +96,13 @@ local.SocialWall.Main.prototype = {
     handleParallaxHeader: function() {
         var slowScroll = this.scrollTop / 2;
         this.$header.css({ transform: 'translateY(' + slowScroll + 'px)' });
+    },
+
+    initMasonry: function() {
+        this.socialWall = new Masonry('#masonry', {
+            columnWidth:  200,
+            itemSelector: '.item'
+        });
     },
 
     ensureFullWidthNav: function() {

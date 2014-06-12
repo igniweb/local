@@ -1,5 +1,7 @@
 <?php
 
+use Local\Services\SocialWall\Repositories\Models\SocialItem;
+
 class HomeController extends BaseController {
 
     public function index()
@@ -9,7 +11,9 @@ class HomeController extends BaseController {
 
     public function socialWall()
     {
-        return View::make('home.social-wall');
+        $items = SocialItem::orderBy('feeded_at', 'desc')->take(20)->get();
+
+        return View::make('home.social-wall', compact('items'));
     }
 
 }

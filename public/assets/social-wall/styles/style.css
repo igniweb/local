@@ -1076,7 +1076,7 @@ textarea {
 #tagline {
     width: 100%;
     margin: 0 auto;
-    padding-top: 15px;
+    padding-top: 25px;
     position: relative;
     z-index: 25;
 }
@@ -1240,7 +1240,7 @@ nav#secondary ul li a:hover {
     display: none;
 }
 #top a i {
-    background: #dee8f0;
+    background: #3664a2;
     color: #ffffff;
     border-radius: 2px;
     font-size: 14px;
@@ -1272,4 +1272,13 @@ nav#secondary ul li a:hover {
 }
 #copyright a:hover {
     color: #999999;
+}
+
+/* Masonry */
+
+#masonry .item {
+    width: 25%;
+}
+#masonry .item.w2 {
+    width: 50%;
 }

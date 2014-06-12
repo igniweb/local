@@ -39,7 +39,7 @@ class SocialItemRepository {
 
     public function paginate($limit, $offset = 0)
     {
-        return $this->model->orderBy('feeded_at', 'desc')->skip($limit * $offset)->limit($limit)->get();
+        return $this->model->orderBy('feeded_at', 'desc')->skip($limit * $offset)->take($limit)->get();
     }
 
 }
