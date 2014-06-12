@@ -6,8 +6,7 @@ use Local\Services\LangPoConverter\Parsers\LangParser;
 use Local\Services\LangPoConverter\Writers\PoWriter;
 use Symfony\Component\Console\Input\InputOption;
 
-class LangToPoCommand extends Command
-{
+class LangToPoCommand extends Command {
 
     protected $name = 'local:lang-to-po';
 

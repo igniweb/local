@@ -2,8 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class LangPoConverterServiceProvider extends ServiceProvider
-{
+class LangPoConverterServiceProvider extends ServiceProvider {
 
     protected $defer = false;
 

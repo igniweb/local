@@ -1,7 +1,9 @@
 {
     "name": "igniweb-local",
     "require": {
-        "laravel/framework": "4.2.*"
+        "laravel/framework": "4.2.*",
+        "thujohn/twitter": "dev-master",
+        "facebook/php-sdk": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "4.1.*",

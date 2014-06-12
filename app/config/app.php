@@ -120,7 +120,9 @@ return array(
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',
         'Illuminate\Workbench\WorkbenchServiceProvider',
+        'Thujohn\Twitter\TwitterServiceProvider',
         'Local\Services\LangPoConverter\LangPoConverterServiceProvider',
+        'Local\Services\SocialWall\SocialWallServiceProvider',
 
     ),
 
