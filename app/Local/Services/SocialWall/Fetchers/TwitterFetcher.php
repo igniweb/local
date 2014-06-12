@@ -54,8 +54,6 @@ class TwitterFetcher extends AbstractFetcher {
             'url'         => 'https://twitter.com/' . $item->user->id_str . '/status/' . $item->id_str,
             'title'       => null,
             'content'     => $this->clean($item->text),
-            'user_name'   => $item->user->screen_name,
-            'user_icon'   => $item->user->profile_image_url,
             'media'       => $media,
             'media_thumb' => $this->getMediaThumb($item),
             'media_type'  => $this->getMediaType($media),

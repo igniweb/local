@@ -1,20 +1,16 @@
 <?php
 
-use Local\Services\SocialWall\Apis\InstagramApi;
 use Local\Services\SocialWall\Repositories\Models\SocialAccount;
+use Local\Services\SocialWall\Repositories\Models\SocialAccountMeta;
 
 class SocialAccountsTableSeeder extends Seeder {
 
-    protected $api;
-
-    public function __construct(InstagramApi $api)
-    {
-        $this->api = $api;
-    }
+    private $facebookPageId;
 
     public function run()
     {
         SocialAccount::truncate();
+        SocialAccountMeta::truncate();
 
         $lines = explode("\n", str_replace("\r\n", "\n", trim(file_get_contents(__DIR__ . '/stubs/social_wall.csv'), "\n")));
         if (count($lines) > 1)
@@ -75,10 +71,7 @@ class SocialAccountsTableSeeder extends Seeder {
     {
         if (strpos($url, 'http://instagram.com/') === 0)
         {
-            $user   = substr($url, 21);
-            $userId = $this->api->getUserId($user);
-
-            return ! empty($userId) ? $userId : $user;
+            return substr($url, 21);
         }
 
         return null; 
@@ -86,6 +79,8 @@ class SocialAccountsTableSeeder extends Seeder {
 
     private function getFacebook($url)
     {
+        $this->facebookPageId = null;
+
         if (strpos($url, 'https://www.facebook.com/') === 0)
         {
             $url = substr($url, 25);
@@ -93,7 +88,15 @@ class SocialAccountsTableSeeder extends Seeder {
             {
                 $segments = explode('/', $url);
 
-                return ! empty($segments[1]) ? $this->removeGet($segments[1]) : null;
+                if ( ! empty($segments[1]))
+                {
+                    if ( ! empty($segments[2]))
+                    {
+                        $this->facebookPageId = $segments[2];
+                    }
+
+                    return $segments[1];
+                };
             }
             else
             {
@@ -134,6 +137,36 @@ class SocialAccountsTableSeeder extends Seeder {
         // - Facebook: {page-id} ou {user-id} + name + icon
         // Delete extra data from social_items table
         // SocialItemRepository must decorate() or present() an account with typed metas
+        $types = ['twitter', 'instagram', 'facebook'];
+        foreach ($types as $type)
+        {
+            if ( ! empty($socialAccount->$type))
+            {   // Build dedicated provider
+                $provider     = '\Local\Services\SocialWall\MetasProviders\\' . ucfirst($type) . 'MetasProvider';
+                $instance     = new $provider;
+
+                $accountMetas = [];
+                if (($type == 'facebook') and ! empty($this->facebookPageId))
+                {   // Special treatment for facebook pages
+                    $accountMetas[] = [
+                        'account_id' => $socialAccount->id,
+                        'type'       => 'facebook',
+                        'key'        => 'page_id',
+                        'value'      => $this->facebookPageId,
+                    ];
+                }
+
+                // Get metas from dedicated provider
+                $accountMetas = array_merge($accountMetas, $instance->getMetas($socialAccount));
+                if ( ! empty($accountMetas))
+                {   // Add in database
+                    foreach ($accountMetas as $accountMeta)
+                    {
+                        SocialAccountMeta::create($accountMeta);
+                    }
+                }
+            }
+        }
     }
 
 }

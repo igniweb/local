@@ -20,7 +20,6 @@ abstract class AbstractFetcher implements FetcherInterface {
                 foreach ($items as $item)
                 {
                     $socialItems[] = $this->parseItem($item, $account['id']);
-dd($socialItems);
                 }
             }
         }
@@ -45,19 +44,15 @@ dd($socialItems);
         {
             return null;
         }
-
         $media = strtolower($media);
-        if (strpos($media, '.png') !== false)
+
+        $extensions = ['png', 'jpg', 'jpeg', 'gif'];
+        foreach ($extensions as $extension)
         {
-            return 'image';
-        }
-        elseif (strpos($media, '.jpg') !== false)
-        {
-            return 'image';
-        }
-        elseif (strpos($media, '.gif') !== false)
-        {
-            return 'image';
+            if (strpos($media, '.' . $extension) !== false)
+            {
+                return 'image';
+            }
         }
 
         return 'video';

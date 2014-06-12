@@ -13,7 +13,18 @@ class InstagramFetcher extends AbstractFetcher {
 
     protected function fetch($id, $account)
     {
-        return $this->api->query('users/' . $id . '/media/recent');
+        $userId = false;
+        if ( ! empty($account['metas']))
+        {
+            $userId = $this->getUserId($account['metas']);
+        }
+
+        if ( ! empty($userId))
+        {
+            return $this->api->query('users/' . $userId . '/media/recent');
+        }
+
+        return false;
     }
 
     protected function parse($data)
@@ -32,14 +43,25 @@ class InstagramFetcher extends AbstractFetcher {
             'url'         => $item->link,
             'title'       => null,
             'content'     => ! empty($item->caption->text) ? $this->clean($item->caption->text) : null,
-            'user_name'   => $item->user->username,
-            'user_icon'   => ! empty($item->user->profile_picture) ? $item->user->profile_picture : null,
             'media'       => $media,
             'media_thumb' => $this->getMediaThumb($item),
             'media_type'  => $this->getMediaType($media),
             'favorites'   => ! empty($item->likes->count) ? intval($item->likes->count) : 0,
             'feeded_at'   => date('Y-m-d H:i:s', $item->created_time),
         ];
+    }
+
+    private function getUserId($metas)
+    {
+        foreach ($metas as $key => $val)
+        {
+            if ($key == 'user_id')
+            {
+                return $val;
+            }
+        }
+
+        return false;
     }
 
     private function getMedia($item)

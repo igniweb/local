@@ -35,16 +35,24 @@ class SocialAccountRepository {
             throw new InvalidArgumentException('Account type is invalid [' . $type . ']');
         }
 
-        $socialAccounts = $this->model->whereNotNull($type)->orderBy('name')->get();
+        $socialAccounts = $this->model->with('metas')->whereNotNull($type)->orderBy('name')->get();
         if ( ! empty($socialAccounts))
         {
             foreach ($socialAccounts as $socialAccount)
             {
-                $accounts[$socialAccount->$type] = [
-                    'id'    => $socialAccount->id,
-                    'name'  => $socialAccount->name,
-                    'metas' => $this->model->getMetas($socialAccount->id),
-                ];
+                $account = $socialAccount->toArray();
+                $metas   = ! empty($account['metas']) ? $account['metas'] : [];
+
+                $account['metas'] = [];
+                foreach ($metas as $meta)
+                {
+                    if ($meta['type'] == $type)
+                    {
+                        $account['metas'][$meta['key']] = $meta['value'];
+                    }
+                }
+
+                $accounts[$socialAccount->$type] = $account;
             }
         }
 

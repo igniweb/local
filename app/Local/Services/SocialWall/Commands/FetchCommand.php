@@ -28,15 +28,7 @@ class FetchCommand extends Command {
         $type  = $this->option('type');
         $debug = $this->option('debug');
 
-        try
-        {
-            $accounts = $this->socialAccountRepository->getByType($type);
-        }
-        catch (InvalidArgumentException $exception)
-        {
-            $this->error($exception->getMessage());
-        }
-
+        $accounts = $this->getAccountsByType($type);
         if ( ! empty($accounts))
         {
             $this->createSocialWall($type);
@@ -47,20 +39,7 @@ class FetchCommand extends Command {
 
             foreach ($accounts as $id => $account)
             {
-                if ($debug)
-                {
-                    $this->line('Fetch [' . $account['name'] . '] account');
-                }
-
-                $this->socialWall->fetch($id, $account);
-                if ($this->option('dry-run'))
-                {
-                    print_r($this->socialWall->getItems());
-                }
-                else
-                {
-//$this->socialWall->save();
-                }
+                $this->fetchAndSaveAccount($id, $account, $debug);
             }
         }
         else
@@ -79,6 +58,58 @@ class FetchCommand extends Command {
             ['debug', null, InputOption::VALUE_NONE, 'Turn debug mode on', null],
             ['dry-run', null, InputOption::VALUE_NONE, 'Dump fetched items', null],
         ];
+    }
+
+    private function getAccountsByType($type)
+    {
+        try
+        {
+            $accounts = $this->socialAccountRepository->getByType($type);
+        }
+        catch (InvalidArgumentException $exception)
+        {
+            $this->error($exception->getMessage());
+            exit;
+        }
+
+        return $accounts;
+    }
+
+    private function fetchAndSaveAccount($id, $account, $debug)
+    {
+        if ($debug)
+        {
+            $this->line('Fetch [' . $account['name'] . '] account');
+        }
+
+        $this->socialWall->fetch($id, $account);
+        $items = $this->socialWall->getItems();
+        if ($this->option('dry-run'))
+        {
+            print_r($items);
+        }
+        else
+        {
+            try
+            {
+                $saved = $this->socialWall->save();
+                if ($debug)
+                {
+                    if ($saved)
+                    {
+                        $this->line('Social items saved successfully (' . count($items) . ')');
+                    }
+                    else
+                    {
+                        $this->error('An error occured while saving items');
+                    }
+                }
+            }
+            catch (Exception $exception)
+            {
+                $this->line('Nothing to save');
+            }
+        }
     }
 
     private function createSocialWall($type)
@@ -104,9 +135,7 @@ class FetchCommand extends Command {
                 exit;
         }
 
-        $this->socialWall = new \Local\Services\SocialWall\SocialWall(
-            $fetcher,
-            new \Local\Services\SocialWall\Repositories\SocialItemRepository(new \Local\Services\SocialWall\Repositories\Models\SocialItem)
-        );
+        $this->socialWall = new \Local\Services\SocialWall\SocialWall($fetcher, new \Local\Services\SocialWall\Repositories\SocialItemRepository(new \Local\Services\SocialWall\Repositories\Models\SocialItem));
     }
+
 }

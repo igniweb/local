@@ -13,14 +13,9 @@ class InstagramApi {
     {
         $url = $this->buildUrl($query, $params);
 
-        return $this->parseResponse(file_get_contents($url));
-    }
+        $response = @file_get_contents($url);
 
-    public function getUserId($user)
-    {
-        $data = $this->query('users/search', ['q' => $user]);
-
-        return ! empty($data[0]->id) ? $data[0]->id : false;
+        return $this->parseResponse($response);
     }
 
     private function buildUrl($query, $params)

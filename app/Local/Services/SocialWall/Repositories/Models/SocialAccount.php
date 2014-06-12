@@ -13,17 +13,9 @@ class SocialAccount extends Eloquent {
 
     protected $dates = ['deleted_at'];
 
-    public function getMetas($accountId)
+    public function metas()
     {
-        $metas = [];
-
-        $socialAccountMetas = DB::table('social_account_metas')->select('key', 'value')->where('account_id', '=', $accountId)->orderBy('key')->get();
-        foreach ($socialAccountMetas as $socialAccountMeta)
-        {
-            $metas[$socialAccountMeta->key] = $socialAccountMeta->value;
-        }
-
-        return $metas;
+        return $this->hasMany('Local\Services\SocialWall\Repositories\Models\SocialAccountMeta', 'account_id', 'id');
     }
 
 }

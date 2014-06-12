@@ -9,7 +9,7 @@ class SocialItem extends Eloquent {
 
     public $table = 'social_items';
 
-    protected $fillable = ['type', 'type_id', 'account_id', 'url', 'title', 'content', 'user_name', 'user_icon', 'media', 'media_thumb', 'media_type', 'favorites', 'feeded_at'];
+    protected $fillable = ['type', 'type_id', 'account_id', 'url', 'title', 'content', 'media', 'media_thumb', 'media_type', 'favorites', 'feeded_at'];
 
     protected $dates = ['feeded_at', 'deleted_at'];
 
