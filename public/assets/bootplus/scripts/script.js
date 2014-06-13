@@ -14,59 +14,77 @@ local.SocialWall.Main = function() {
 // Prototype
 local.SocialWall.Main.prototype = {
 
-    firstTrig:  true,
-    isLoading:  false,
-    hasDisplay: false,
-    masonryId:  null,
-    socialWall: null,
+    $loaders:    null,
+    $masonry:    null,
+    isLoading:   null,
+    firstScroll: null,
 
     init: function() {
+        this.isLoading   = false;
+        this.firstScroll = true;
+
         // Bind events
         jQuery(document).ready(jQuery.proxy(this, 'onDocumentReady'));
         jQuery(window).scroll(jQuery.proxy(this, 'onWindowScroll'));        
     },
 
     onDocumentReady: function() {
-        this.masonryId = 'masonry';
+        this.$loaders = jQuery('.loader');
+        this.$masonry = jQuery('#masonry');
+
         this.initMasonry();
     },
 
     onWindowScroll: function() {
-        if ((window.innerHeight + window.scrollY + 50) >= document.body.offsetHeight) {
-            if ( ! this.isLoading && ! this.firstTrig) {
-                this.handleInfiniteScroll();
+        if ( ! this.firstScroll) {
+            if ( ! this.isLoading) {
+                if ((window.innerHeight + window.scrollY + 20) >= document.body.offsetHeight) {
+                    this.handleInfiniteScroll();
+                }
             }
+        } else {
+            this.firstScroll = false;
         }
-        this.firstTrig = false;
+    },
+
+    initMasonry: function() {
+        this.$masonry.masonry({
+            columnWidth:  180,
+            gutter:       5,
+            itemSelector: '.item'
+        });
+
+        this.$masonry.imagesLoaded(jQuery.proxy(this, 'layoutMasonry'));
+    },
+
+    layoutMasonry: function() {
+        this.$loaders.hide();
+
+        this.$masonry.masonry('layout');
     },
 
     handleInfiniteScroll: function() {
         this.isLoading = true;
-        console.log('handleInfiniteScroll');
-        this.isLoading = false;
-    },
+        this.$loaders.show();
 
-    initMasonry: function() {
-        jQuery('#' + this.masonryId).hide();
-
-        this.socialWall = new Masonry('#' + this.masonryId, {
-            columnWidth:  180,
-            gutter:       1,
-            itemSelector: '.item'
+        var offset = parseInt(this.$masonry.data('offset'));
+        offset++;
+        this.$masonry.data('offset', offset);
+        
+        jQuery.ajax({
+            url:     '/social-wall/' + offset,
+            type:    'GET',
+            success: jQuery.proxy(this, 'addItems')
         });
-        imagesLoaded('#' + this.masonryId, jQuery.proxy(this, 'layoutMasonry'));
     },
 
-    layoutMasonry: function() {
-        if ( ! this.hasDisplay) {
-            this.hasDisplay = true;
-            jQuery('.display-after-load').show();
-        }
+    addItems: function(items) {
+        this.isLoading = false;
 
-        jQuery('#loader').hide();
-        jQuery('#' + this.masonryId).show();
+        this.$masonry.append(items);
+        this.$masonry.masonry('reloadItems');
 
-        this.socialWall.layout();
+        this.$masonry.imagesLoaded(jQuery.proxy(this, 'layoutMasonry'));
     }
 
 };

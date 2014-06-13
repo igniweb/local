@@ -29,8 +29,8 @@
         <div class="row-fluid">
             @yield('content')
 
-            <hr class="display-after-load">
-            <footer class="display-after-load">
+            <hr>
+            <footer>
                 <p>
                     {{ trans('social-wall.copyright') }}
                     &copy;

@@ -9,6 +9,8 @@ class SocialWallController extends BaseController {
 
     protected $itemRepository;
 
+    const TAKE_PER_LOAD = 20;
+
     public function __construct(SocialAccountRepository $accountRepository, SocialItemRepository $itemRepository)
     {
         $this->accountRepository = $accountRepository;
@@ -20,9 +22,18 @@ class SocialWallController extends BaseController {
     {
         $accounts = $this->accountRepository->getById();
 
-        $items = $this->itemRepository->paginate(30, rand(0, 10));
+        $items = $this->itemRepository->paginate(static::TAKE_PER_LOAD, 0);
 
         return View::make('social-wall.index', compact('accounts', 'items'));
+    }
+
+    public function items($offset)
+    {
+        $accounts = $this->accountRepository->getById();
+        
+        $items = $this->itemRepository->paginate(static::TAKE_PER_LOAD, $offset);
+
+        return View::make('social-wall.items', compact('accounts', 'items'));
     }
 
 }
