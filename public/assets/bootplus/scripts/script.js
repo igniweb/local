@@ -16,6 +16,7 @@ local.SocialWall.Main.prototype = {
 
     firstTrig:  true,
     isLoading:  false,
+    hasDisplay: false,
     masonryId:  null,
     socialWall: null,
 
@@ -28,10 +29,6 @@ local.SocialWall.Main.prototype = {
     onDocumentReady: function() {
         this.masonryId = 'masonry';
         this.initMasonry();
-    },
-
-    onWindowResize: function() {
-        this.setScrollLim();
     },
 
     onWindowScroll: function() {
@@ -61,7 +58,12 @@ local.SocialWall.Main.prototype = {
     },
 
     layoutMasonry: function() {
-        jQuery('#' + this.masonryId + '_loader').hide();
+        if ( ! this.hasDisplay) {
+            this.hasDisplay = true;
+            jQuery('.display-after-load').show();
+        }
+
+        jQuery('#loader').hide();
         jQuery('#' + this.masonryId).show();
 
         this.socialWall.layout();

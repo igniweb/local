@@ -6,6 +6,7 @@
     <title>{{ trans('social-wall.title') }}</title>
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400,300,700">
     <link rel="stylesheet" href="/vendor/bootplus/docs/assets/css/bootplus.css" media="screen">
+    <link rel="stylesheet" href="/assets/bootplus/styles/style.css" media="screen">
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -27,10 +28,14 @@
     <div class="container-fluid">
         <div class="row-fluid">
             @yield('content')
-            
-            <hr>
-            <footer>
-                <p>{{ trans('social-wall.copyright') }} &copy; {{ trans('social-wall.copyright-name') }}</p>
+
+            <hr class="display-after-load">
+            <footer class="display-after-load">
+                <p>
+                    {{ trans('social-wall.copyright') }}
+                    &copy;
+                    <a href="{{ trans('social-wall.copyright-url') }}" target="_blank">{{ trans('social-wall.copyright-name') }}</a>
+                </p>
             </footer>
         </div>
     </div>

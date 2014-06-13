@@ -9,6 +9,7 @@
             <a class="brand" href="{{ URL::route('home') }}">{{ trans('social-wall.title') }}</a>
             <div class="nav-collapse collapse">
                 <p class="navbar-text pull-right">
+                    <img src="/assets/bootplus/images/loader16.gif" id="loader" alt="{{ trans('social-wall.loading') }}">
                     {{ trans('social-wall.brand') }}
                 </p>
                 <ul class="nav">

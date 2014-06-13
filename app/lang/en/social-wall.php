@@ -14,7 +14,6 @@ return array(
 
     'loading'     => 'Loading...',
     'details'     => 'View details',
-    'back-to-top' => 'Back to the top',
 
     'copyright'      => 'Copyright',
     'copyright-name' => 'Sébastien Muller',
