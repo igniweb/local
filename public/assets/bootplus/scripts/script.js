@@ -14,17 +14,39 @@ local.SocialWall.Main = function() {
 // Prototype
 local.SocialWall.Main.prototype = {
 
+    firstTrig:  true,
+    isLoading:  false,
     masonryId:  null,
     socialWall: null,
 
     init: function() {
         // Bind events
         jQuery(document).ready(jQuery.proxy(this, 'onDocumentReady'));
+        jQuery(window).scroll(jQuery.proxy(this, 'onWindowScroll'));        
     },
 
     onDocumentReady: function() {
         this.masonryId = 'masonry';
         this.initMasonry();
+    },
+
+    onWindowResize: function() {
+        this.setScrollLim();
+    },
+
+    onWindowScroll: function() {
+        if ((window.innerHeight + window.scrollY + 50) >= document.body.offsetHeight) {
+            if ( ! this.isLoading && ! this.firstTrig) {
+                this.handleInfiniteScroll();
+            }
+        }
+        this.firstTrig = false;
+    },
+
+    handleInfiniteScroll: function() {
+        this.isLoading = true;
+        console.log('handleInfiniteScroll');
+        this.isLoading = false;
     },
 
     initMasonry: function() {
