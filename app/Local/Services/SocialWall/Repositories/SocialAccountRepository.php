@@ -11,11 +11,6 @@ class SocialAccountRepository {
         $this->model = $model;
     }
 
-    public function all()
-    {
-        return $this->model->orderBy('name')->get();
-    }
-
     public function findById($id)
     {
         return $this->model->findOrFail($id);

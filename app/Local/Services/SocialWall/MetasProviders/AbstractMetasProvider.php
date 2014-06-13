@@ -1,6 +1,7 @@
 <?php namespace Local\Services\SocialWall\MetasProviders;
 
 use Local\Services\SocialWall\MetasProviderInterface;
+use Patchwork\Utf8;
 
 abstract class AbstractMetasProvider implements MetasProviderInterface {
 
@@ -22,5 +23,10 @@ abstract class AbstractMetasProvider implements MetasProviderInterface {
     abstract protected function setAccountIcon($socialAccountId);
 
     abstract protected function setExtraMetas($socialAccount);
+
+    protected function clean($str)
+    {
+        return Utf8::utf8_encode(Utf8::utf8_decode($str));
+    }
 
 }

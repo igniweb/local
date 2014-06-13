@@ -23,7 +23,7 @@ class FacebookFetcher extends AbstractFetcher {
 
         if ( ! empty($id))
         {
-            return $this->api->api('/' . $id . '/feed', 'GET');
+            return $this->api->api('/' . $id . '/posts', 'GET');
         }
 
         return false;

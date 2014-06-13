@@ -15,7 +15,7 @@ class TwitterMetasProvider extends AbstractMetasProvider  {
 
     public function getMetas($socialAccount)
     {
-        $this->user = $this->getUser($socialAccount->instagram);
+        $this->user = $this->getUser($socialAccount->twitter);
 
         if ( ! empty($this->user))
         {
@@ -41,7 +41,7 @@ class TwitterMetasProvider extends AbstractMetasProvider  {
                 'account_id' => $socialAccountId,
                 'type'       => 'twitter',
                 'key'        => 'account_name',
-                'value'      => $this->user->name,
+                'value'      => $this->clean($this->user->name),
             ];
         }
     }

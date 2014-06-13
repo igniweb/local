@@ -3,6 +3,7 @@
 return array(
 
     'title' => 'Social Wall local.',
+    'brand' => 'localhost',
 
     'filters' => array(
         'all'       => 'All items',
@@ -12,6 +13,7 @@ return array(
     ),
 
     'loading'     => 'Loading...',
+    'details'     => 'View details',
     'back-to-top' => 'Back to the top',
 
     'copyright'      => 'Copyright',

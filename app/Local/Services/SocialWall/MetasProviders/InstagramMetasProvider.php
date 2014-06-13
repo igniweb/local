@@ -40,7 +40,7 @@ class InstagramMetasProvider extends AbstractMetasProvider  {
                 'account_id' => $socialAccountId,
                 'type'       => 'instagram',
                 'key'        => 'account_name',
-                'value'      => $this->user->full_name,
+                'value'      => $this->clean($this->user->full_name),
             ];
         }
     }

@@ -1,7 +1,8 @@
 {
-    "name": "igniweb-local",
-    "devDependencies": {
-        "masonry": "~3.1.5",
-        "imagesloaded": "~3.1.5"
-    }
+  "name": "igniweb-local",
+  "devDependencies": {
+    "masonry": "~3.1.5",
+    "imagesloaded": "~3.1.5",
+    "bootplus": "~1.0.4"
+  }
 }

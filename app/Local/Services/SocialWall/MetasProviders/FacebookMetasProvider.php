@@ -50,7 +50,7 @@ class FacebookMetasProvider extends AbstractMetasProvider  {
                 'account_id' => $socialAccountId,
                 'type'       => 'facebook',
                 'key'        => 'account_name',
-                'value'      => $this->graph->name,
+                'value'      => $this->clean($this->graph->name),
             ];
         }
     }

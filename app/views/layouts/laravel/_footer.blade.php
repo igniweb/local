@@ -6,7 +6,7 @@
                 <a href="{{ URL::route('home') }}">{{ trans('social-wall.title') }}</a>
             </div>
             --}}
-            @include('layouts.social-wall._menu')
+            @include('layouts.laravel._menu')
         </nav>
     </div>
 </footer>
