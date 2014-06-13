@@ -23,6 +23,7 @@
     @include('layouts.social-wall._copyright')
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+    <script src="/vendor/imagesloaded/imagesloaded.pkgd.js"></script>
     <script src="/vendor/masonry/dist/masonry.pkgd.js"></script>
     <script src="/assets/social-wall/scripts/script.js"></script>
 </body>

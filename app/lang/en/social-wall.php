@@ -11,6 +11,7 @@ return array(
         'facebook'  => 'Facebook',
     ),
 
+    'loading'     => 'Loading...',
     'back-to-top' => 'Back to the top',
 
     'copyright'      => 'Copyright',

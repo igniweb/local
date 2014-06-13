@@ -1276,9 +1276,36 @@ nav#secondary ul li a:hover {
 
 /* Masonry */
 
+#masonry {
+    width: 98%;
+    margin: 0 auto 2em;
+}
 #masonry .item {
     width: 25%;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 #masonry .item.w2 {
     width: 50%;
+}
+
+.social-item {
+    padding: 1em;
+    border: 1px solid #aaa;
+    border-radius: 1px;
+}
+.social-item-content {
+    margin: 1em;
+    padding-bottom: 1em;
+    border-bottom: 1px dashed #aaa;
+}
+
+.label.twitter {
+    background-color: #00aced; 
+}
+.label.instagram {
+     background-color: #ff2b25; 
+}
+.label.facebook { 
+    background-color: #3664a2; 
 }

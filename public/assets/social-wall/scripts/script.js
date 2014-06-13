@@ -21,6 +21,7 @@ local.SocialWall.Main.prototype = {
     navY:       null,
     isFixed:    null,
     scrollTop:  null,
+    masonryId:  null,
     socialWall: null,
 
     init: function() {
@@ -40,6 +41,7 @@ local.SocialWall.Main.prototype = {
         this.$top = jQuery('#top');
         this.$top.hide();
 
+        this.masonryId = 'masonry';
         this.initMasonry();
     },
 
@@ -65,7 +67,7 @@ local.SocialWall.Main.prototype = {
 
     handleStickyNav: function() {
         var shouldBeFixed = this.scrollTop > this.navY;
-        if (shouldBeFixed && ! isFixed) {
+        if (shouldBeFixed && ! this.isFixed) {
             this.$nav.css({
                 position: 'fixed',
                 width:    '100%',
@@ -78,7 +80,7 @@ local.SocialWall.Main.prototype = {
             });
 
             this.isFixed = true;
-        } else if ( ! shouldBeFixed && isFixed) {
+        } else if ( ! shouldBeFixed && this.isFixed) {
             this.$nav.css({
                 position: 'relative',
                 width:    '100%',
@@ -89,7 +91,7 @@ local.SocialWall.Main.prototype = {
                 paddingTop: '0'
             });
 
-            isFixed = false;
+            this.isFixed = false;
         }
     },
 
@@ -99,10 +101,21 @@ local.SocialWall.Main.prototype = {
     },
 
     initMasonry: function() {
-        this.socialWall = new Masonry('#masonry', {
-            columnWidth:  200,
+        jQuery('#' + this.masonryId).hide();
+
+        this.socialWall = new Masonry('#' + this.masonryId, {
+            columnWidth:  180,
+            gutter:       1,
             itemSelector: '.item'
         });
+        imagesLoaded('#' + this.masonryId, jQuery.proxy(this, 'layoutMasonry'));
+    },
+
+    layoutMasonry: function() {
+        jQuery('#' + this.masonryId + '_loader').hide();
+        jQuery('#' + this.masonryId).show();
+
+        this.socialWall.layout();
     },
 
     ensureFullWidthNav: function() {

@@ -1,6 +1,7 @@
 {
     "name": "igniweb-local",
     "devDependencies": {
-        "masonry": "~3.1.5"
+        "masonry": "~3.1.5",
+        "imagesloaded": "~3.1.5"
     }
 }

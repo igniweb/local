@@ -59,4 +59,29 @@ class SocialAccountRepository {
         return $accounts;
     }
 
+    public function getById()
+    {
+        $accounts = [];
+
+        $socialAccounts = $this->model->with('metas')->orderBy('id')->get();
+        if ( ! empty($socialAccounts))
+        {
+            foreach ($socialAccounts as $socialAccount)
+            {
+                $account = $socialAccount->toArray();
+                $metas   = ! empty($account['metas']) ? $account['metas'] : [];
+
+                $account['metas'] = [];
+                foreach ($metas as $meta)
+                {
+                    $account['metas'][$meta['type']][$meta['key']] = $meta['value'];
+                }
+
+                $accounts[$socialAccount->id] = $account;
+            }
+        }
+
+        return $accounts;
+    }
+
 }
