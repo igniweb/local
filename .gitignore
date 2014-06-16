@@ -1,4 +1,5 @@
 /.idea
+/app/config/production/database.php
 /bootstrap/compiled.php
 /i18n
 /node_modules

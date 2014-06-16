@@ -26,7 +26,8 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-    'local' => array('local.dev', 'Mac-Mini.local', 'DELL-T3610-02'),
+    'local'      => array('local.dev', 'Mac-Mini.local', 'DELL-T3610-02'),
+    'production' => array('sand.igniweb.net', 'n11'),
 
 ));
 
