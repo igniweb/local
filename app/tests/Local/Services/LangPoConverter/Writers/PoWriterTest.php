@@ -38,8 +38,8 @@ class PoWriterTest extends TestCase {
 
         $this->assertFileExists($this->path . '/i18n/stubs-en_US.po');
         $this->assertFileExists($this->path . '/i18n/stubs-fr_FR.po');
-        $this->assertFileEquals($stubs . 'i18n/stubs-en_US.po', $this->path . '/i18n/stubs-en_US.po', 'PO files en_US.po doesn\'t match');
-        $this->assertFileEquals($stubs . 'i18n/stubs-fr_FR.po', $this->path . '/i18n/stubs-fr_FR.po', 'PO files fr_FR.po doesn\'t match');
+        $this->assertFileEquals($stubs . 'i18n/stubs-en_US.po', $this->path . '/i18n/stubs-en_US.po');
+        $this->assertFileEquals($stubs . 'i18n/stubs-fr_FR.po', $this->path . '/i18n/stubs-fr_FR.po');
     }
 
 }

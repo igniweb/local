@@ -13,12 +13,12 @@ class SocialAccountRepository {
 
     public function findById($id)
     {
-        return $this->model->findOrFail($id);
+        return $this->model->find($id);
     }
 
     public function findBySlug($slug)
     {
-        return $this->model->where('slug', '=', $slug)->firstOrFail();
+        return $this->model->where('slug', '=', $slug)->first();
     }
 
     public function getByType($type = 'twitter')

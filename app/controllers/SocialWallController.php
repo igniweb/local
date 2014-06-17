@@ -18,22 +18,21 @@ class SocialWallController extends BaseController {
         $this->itemRepository = $itemRepository;
     }
 
-    public function index($type = 'all')
+    public function index($type = 'all', $account = 'all', $page = 0)
     {
-        $type = $this->validType($type);
+        $type      = $this->validType($type);
+        $accountId = $this->getAccountId($account);
 
         $accounts = $this->accountRepository->getById();
+        $items    = $this->itemRepository->paginate($type, $accountId, intval($page), static::TAKE_PER_LOAD);
 
-        $items = $this->itemRepository->paginate($type, static::TAKE_PER_LOAD, 0);
-
-        return View::make('social-wall.index', compact('type', 'accounts', 'items'));
+        return View::make('social-wall.index', compact('type', 'accountId', 'accounts', 'items'));
     }
 
-    public function items($type, $offset)
+    public function items($type, $accountId, $page)
     {
         $accounts = $this->accountRepository->getById();
-
-        $items = $this->itemRepository->paginate($this->validType($type), static::TAKE_PER_LOAD, intval($offset));
+        $items    = $this->itemRepository->paginate($this->validType($type), $accountId, intval($page), static::TAKE_PER_LOAD);
 
         return View::make('social-wall.items', compact('accounts', 'items'));
     }
@@ -46,6 +45,18 @@ class SocialWallController extends BaseController {
         }
 
         return $type;
+    }
+
+    private function getAccountId($account)
+    {
+        $accountModel = $this->accountRepository->findBySlug($account);
+
+        if (empty($accountModel))
+        {
+            return 'all';
+        }
+
+        return $accountModel->id;
     }
 
 }

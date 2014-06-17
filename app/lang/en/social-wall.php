@@ -11,6 +11,10 @@ return array(
         'instagram' => 'Instagram',
         'facebook'  => 'Facebook',
     ),
+    'accounts' => array(
+        'title' => 'Accounts',
+        'all'   => 'All accounts',
+    ),
 
     'loading'     => 'Loading...',
     'details'     => 'Details',

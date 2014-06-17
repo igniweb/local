@@ -37,7 +37,7 @@ class SocialItemRepository {
         return $this->model->where('type', '=', $type)->where('type_id', '=', $typeId)->first();
     }
 
-    public function paginate($type, $limit, $offset = 0)
+    public function paginate($type, $accountId, $page = 0, $limit = 20)
     {
         $query = $this->model->orderBy('feeded_at', 'desc');
 
@@ -45,8 +45,12 @@ class SocialItemRepository {
         {
             $query = $query->where('type', '=', $type);
         }
+        if ($accountId != 'all')
+        {
+            $query = $query->where('account_id', '=', $accountId);
+        }
 
-        return $query->skip($limit * $offset)->take($limit)->get();
+        return $query->skip($limit * $page)->take($limit)->get();
     }
 
 }

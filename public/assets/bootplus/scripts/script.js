@@ -72,14 +72,20 @@ local.SocialWall.Main.prototype = {
         this.$masonry.data('offset', offset);
         
         jQuery.ajax({
-            url:     '/social-wall/' + socialWallType + '/' + offset,
+            url:     '/social-wall/items/' + socialWallType + '/' + socialWallAccountId + '/' + offset,
             type:    'GET',
             success: jQuery.proxy(this, 'addItems')
         });
     },
 
     addItems: function(items) {
-        this.isLoading = false;
+        if (items != '') {
+            // We hit end of resource, so we don't want to load anymore
+            this.isLoading = false;
+        } else {
+            this.$loaders.hide();
+            return;
+        }
 
         this.$masonry.append(items);
         this.$masonry.masonry('reloadItems');

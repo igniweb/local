@@ -11,6 +11,7 @@
     <img src="/assets/bootplus/images/loader32.gif" class="loader" alt="{{ trans('social-wall.loading') }}">
 </div>
 <script>
-    var socialWallType = '{{ $type }}';
+    var socialWallType      = '{{ $type }}';
+    var socialWallAccountId = '{{ $accountId }}';
 </script>
 @stop
