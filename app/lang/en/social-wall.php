@@ -2,18 +2,18 @@
 
 return array(
 
-    'title' => 'Social Wall local.',
-    'brand' => 'localhost',
+    'title' => 'Social Wall FFF World Cup 2014.',
+    'brand' => 'igniweb',
 
     'filters' => array(
-        'all'       => 'All items',
+        'all'       => 'All',
         'twitter'   => 'Twitter',
         'instagram' => 'Instagram',
         'facebook'  => 'Facebook',
     ),
 
     'loading'     => 'Loading...',
-    'details'     => 'View details',
+    'details'     => 'Details',
 
     'copyright'      => 'Copyright',
     'copyright-name' => 'Sébastien Muller',

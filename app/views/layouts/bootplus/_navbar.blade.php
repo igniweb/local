@@ -13,9 +13,9 @@
                     {{ trans('social-wall.brand') }}
                 </p>
                 <ul class="nav">
-                    <li class="active"><a href="{{ URL::route('social_wall') }}">{{ trans('social-wall.filters.all') }}</a></li>
-                    @foreach (['twitter', 'instagram', 'facebook'] as $type)
-                        <li><a href="#{{ $type }}">{{ trans('social-wall.filters.' . $type) }}</a></li>
+                    <li{{ ($routeType == 'all') ? ' class="active"': '' }}><a href="{{ URL::route('social_wall') }}">{{ trans('social-wall.filters.all') }}</a></li>
+                    @foreach ($types as $type)
+                        <li{{ ($routeType == $type) ? ' class="active"': '' }}><a href="{{ URL::route('social_wall', [$type]) }}">{{ trans('social-wall.filters.' . $type) }}</a></li>
                     @endforeach
                 </ul>
             </div>

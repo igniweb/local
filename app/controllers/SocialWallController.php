@@ -18,22 +18,34 @@ class SocialWallController extends BaseController {
         $this->itemRepository = $itemRepository;
     }
 
-    public function index()
+    public function index($type = 'all')
+    {
+        $type = $this->validType($type);
+
+        $accounts = $this->accountRepository->getById();
+
+        $items = $this->itemRepository->paginate($type, static::TAKE_PER_LOAD, 0);
+
+        return View::make('social-wall.index', compact('type', 'accounts', 'items'));
+    }
+
+    public function items($type, $offset)
     {
         $accounts = $this->accountRepository->getById();
 
-        $items = $this->itemRepository->paginate(static::TAKE_PER_LOAD, 0);
+        $items = $this->itemRepository->paginate($this->validType($type), static::TAKE_PER_LOAD, intval($offset));
 
         return View::make('social-wall.index', compact('accounts', 'items'));
     }
 
-    public function items($offset)
+    private function validType($type)
     {
-        $accounts = $this->accountRepository->getById();
-        
-        $items = $this->itemRepository->paginate(static::TAKE_PER_LOAD, $offset);
+        if (! in_array($type, ['all', 'twitter', 'instagram', 'facebook']))
+        {
+            $type = 'all';
+        }
 
-        return View::make('social-wall.items', compact('accounts', 'items'));
+        return $type;
     }
 
 }

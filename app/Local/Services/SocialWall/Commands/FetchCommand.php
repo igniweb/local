@@ -107,7 +107,10 @@ class FetchCommand extends Command {
             }
             catch (Exception $exception)
             {
-                $this->line('Nothing to save');
+                if ($debug)
+                {
+                    $this->line('Nothing to save');
+                }
             }
         }
     }
