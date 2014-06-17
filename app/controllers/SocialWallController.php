@@ -35,12 +35,12 @@ class SocialWallController extends BaseController {
 
         $items = $this->itemRepository->paginate($this->validType($type), static::TAKE_PER_LOAD, intval($offset));
 
-        return View::make('social-wall.index', compact('accounts', 'items'));
+        return View::make('social-wall.items', compact('accounts', 'items'));
     }
 
     private function validType($type)
     {
-        if (! in_array($type, ['all', 'twitter', 'instagram', 'facebook']))
+        if ( ! in_array($type, ['all', 'twitter', 'instagram', 'facebook']))
         {
             $type = 'all';
         }

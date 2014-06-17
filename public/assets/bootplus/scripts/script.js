@@ -72,7 +72,7 @@ local.SocialWall.Main.prototype = {
         this.$masonry.data('offset', offset);
         
         jQuery.ajax({
-            url:     '/social-wall/' + socialWallType + '/type/' + offset,
+            url:     '/social-wall/' + socialWallType + '/' + offset,
             type:    'GET',
             success: jQuery.proxy(this, 'addItems')
         });
