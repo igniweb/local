@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: STUBS\n"
+"POT-Creation-Date: 2014-06-17 21:13+0000\n"
+"PO-Revision-Date: 2014-06-17 21:13+0000\n"
+"Last-Translator: name <email>\n"
+"Language-Team: name <email>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: /app/Namespace/lang/en/backend.php:key1
+msgid "backend1"
+msgstr "backend1"
+
+#: /app/Namespace/lang/en/backend.php:key2.key21
+msgid "backend21"
+msgstr "backend21"
+
+#: /app/Namespace/lang/en/backend.php:key2.key22
+msgid "backend22"
+msgstr "backend22"
+
+#: /app/Namespace/lang/en/backend.php:key2.key23.key231
+msgid "backend231"
+msgstr "backend231"
+
+#: /app/Namespace/lang/en/backend.php:key2.key24.key241
+msgid "backend241"
+msgstr "backend241"
+
+#: /app/Namespace/lang/en/backend.php:key2.key24.key242
+msgid "backend242"
+msgstr "backend242"
+
+#: /app/Namespace/lang/en/common.php:key1
+msgid "common1"
+msgstr "common1"
+
+#: /app/Namespace/lang/en/frontend.php:key1
+msgid "frontend1"
+msgstr "frontend1"
+
+#: /app/lang/en/backend.php:key1
+msgid "lang1"
+msgstr "lang1"
+
+#: /app/lang/en/frontend.php:key1
+msgid "lang1"
+msgstr "lang1"
+
+#: /app/lang/en/frontend.php:key2
+msgid "lang2"
+msgstr "lang2"
+
+#: /workbench/src/lang/en/backend.php:key1
+msgid "work1_EN"
+msgstr "work1_EN"
+
+#: /workbench/src/lang/en/backend.php:key2
+msgid "work2_EN"
+msgstr "work2_EN"
+
+#: /workbench/src/lang/en/frontend.php:key1
+msgid "work1_EN"
+msgstr "work1_EN"
+
+#: /workbench/src/lang/en/frontend.php:key2
+msgid "work2_EN"
+msgstr "work2_EN"
+

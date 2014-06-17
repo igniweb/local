@@ -4,7 +4,7 @@ use Local\Services\LangPoConverter\WriterInterface;
 
 class LangWriter implements WriterInterface {
 
-    public function dump($path, array $langs = [])
+    public function dump($path, array $langs)
     {
         if ( ! empty($langs))
         {

@@ -1,0 +1,43 @@
+{
+    "en_US": {
+        "/app/Namespace/lang/en/backend.php": {
+            "key1": "backend1",
+            "key2.key21": "backend21",
+            "key2.key22": "backend22",
+            "key2.key23.key231": "backend231",
+            "key2.key24.key241": "backend241",
+            "key2.key24.key242": "backend242"
+        },
+        "/app/Namespace/lang/en/common.php": {
+            "key1": "common1"
+        },
+        "/app/Namespace/lang/en/frontend.php": {
+            "key1": "frontend1"
+        },
+        "/app/lang/en/backend.php": {
+            "key1": "lang1"
+        },
+        "/app/lang/en/frontend.php": {
+            "key1": "lang1",
+            "key2": "lang2"
+        },
+        "/workbench/src/lang/en/backend.php": {
+            "key1": "work1_EN",
+            "key2": "work2_EN"
+        },
+        "/workbench/src/lang/en/frontend.php": {
+            "key1": "work1_EN",
+            "key2": "work2_EN"
+        }
+    },
+    "fr_FR": {
+        "/workbench/src/lang/fr/backend.php": {
+            "key1": "work1_FR",
+            "key2": "work2_FR"
+        },
+        "/workbench/src/lang/fr/frontend.php": {
+            "key1": "work1_FR",
+            "key2": "work2_FR"
+        }
+    }
+}

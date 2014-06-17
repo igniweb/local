@@ -11,7 +11,7 @@ class PoWriter implements WriterInterface {
         $this->config = $config;
     }
 
-    public function dump($path, array $langs = [])
+    public function dump($path, array $langs, $poDate = false)
     {
         if ( ! empty($langs))
         {
@@ -21,9 +21,14 @@ class PoWriter implements WriterInterface {
                 mkdir($i18nPath, 0755, true);
             }
 
+            if (empty($poDate))
+            {
+                $poDate = date('Y-m-d H:iO');    
+            }
+            
             foreach ($langs as $langIso => $files)
             {
-                $content = $this->headers($path, $langIso);
+                $content = $this->headers($path, $langIso, $poDate);
                 foreach ($files as $fileId => $fileEntries)
                 {
                     foreach ($fileEntries as $key => $val)
@@ -37,13 +42,13 @@ class PoWriter implements WriterInterface {
         }
     }
 
-    private function headers($path, $langIso)
+    private function headers($path, $langIso, $poDate)
     {
         $headers[] = 'msgid ""';
         $headers[] = 'msgstr ""';
         $headers[] = '"Project-Id-Version: ' . strtoupper(basename($path)) . '\\n"';
-        $headers[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\\n"';
-        $headers[] = '"PO-Revision-Date: ' . date('Y-m-d H:iO') . '\\n"';
+        $headers[] = '"POT-Creation-Date: ' . $poDate . '\\n"';
+        $headers[] = '"PO-Revision-Date: ' . $poDate . '\\n"';
         $headers[] = '"Last-Translator: ' . $this->config['name'] . ' <' . $this->config['email'] . '>\\n"';
         $headers[] = '"Language-Team: ' . $this->config['name'] . ' <' . $this->config['email'] . '>\\n"';
         $headers[] = '"Language: ' . $langIso . '\\n"';

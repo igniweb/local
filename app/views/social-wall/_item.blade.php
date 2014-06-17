@@ -1,13 +1,13 @@
-@if ( ! empty($accounts[$item->account_id]['metas'][$item->type]['account_name']))
+@if ( ! empty($accounts[$item->account_id]['name']))
     <div class="item">
         <div class="well">
             @if ( ! empty($accounts[$item->account_id]['metas'][$item->type]['account_icon']))
                 <h3>
                     <img class="img-circle" src="{{ $accounts[$item->account_id]['metas'][$item->type]['account_icon'] }}" style="width: 40px; height: 40px;">
-                    {{ $accounts[$item->account_id]['metas'][$item->type]['account_name'] }}
+                    {{ $accounts[$item->account_id]['name'] }}
                 </h3>
             @else
-                <h2>{{ $accounts[$item->account_id]['metas'][$item->type]['account_name'] }}</h2>
+                <h2>{{ $accounts[$item->account_id]['name'] }}</h2>
             @endif
 
             @if ( ! empty($item->media_thumb))
