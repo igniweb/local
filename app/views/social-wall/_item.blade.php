@@ -10,19 +10,13 @@
                 <h2>{{ $accounts[$item->account_id]['name'] }}</h2>
             @endif
 
-            @if ( ! empty($item->media_thumb))
-                <div style="text-align: center;">
-                    <a href="{{ $item->media }}" target="_blank"><img src="{{ $item->media_thumb }}" class="img-polaroid"></a>
-                </div>
-            @endif
+            @include('social-wall._media')
 
             <p>{{ $item->content }}</p>
 
-            <p><small>{{ Str::upper($item->type) . ' &mdash; ' . $item->feeded_at->diffForHumans() }}</small></p>
+            <p><small>{{ Str::upper($item->type) . ' &mdash; ' . $item->feeded_at }}</small></p>
 
-            <p style="text-align: right;">
-                <a class="btn btn-primary" href="{{ $item->url }}" target="_blank">{{ trans('social-wall.details') }}</a>
-            </p>
+            @include('social-wall._actions')
         </div>
     </div>
 @endif

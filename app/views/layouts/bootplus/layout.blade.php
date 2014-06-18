@@ -7,19 +7,6 @@
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400,300,700">
     <link rel="stylesheet" href="/vendor/bootplus/docs/assets/css/bootplus.css" media="screen">
     <link rel="stylesheet" href="/assets/bootplus/styles/style.css" media="screen">
-    <style type="text/css">
-        body {
-            padding-top: 60px;
-            padding-bottom: 40px;
-        }
-        @media (max-width: 980px) {
-            .navbar-text.pull-right {
-                float: none;
-                padding-left: 5px;
-                padding-right: 5px;
-            }
-        }
-    </style>
     <link rel="stylesheet" href="/vendor/bootplus/docs/assets/css/bootplus-responsive.css" media="screen">
 </head>
 <body>
