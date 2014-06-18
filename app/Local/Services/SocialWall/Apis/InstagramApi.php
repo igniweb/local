@@ -1,5 +1,7 @@
 <?php namespace Local\Services\SocialWall\Apis;
 
+use ErrorException;
+
 class InstagramApi {
     
     private $apiUrl;
@@ -12,8 +14,20 @@ class InstagramApi {
     public function query($query, $params = [])
     {
         $url = $this->buildUrl($query, $params);
-
-        $response = @file_get_contents($url);
+        try
+        {
+            $response = file_get_contents($url);
+        }
+        catch (ErrorException $exception)
+        {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, 0);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $response = curl_exec($ch);
+            curl_close($ch);
+        }
 
         return $this->parseResponse($response);
     }
