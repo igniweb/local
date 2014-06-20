@@ -46,16 +46,31 @@ class FacebookFetcher extends AbstractFetcher {
 
     protected function parseItem($item, $accountId)
     {
-        return [
-            'type'        => 'facebook',
-            'type_id'     => $item['id'],
-            'account_id'  => $accountId,
-            'url'         => 'https://www.facebook.com/' . $item['id'],
-            'title'       => null,
-            'content'     => $this->getContent($item),
-            'favorites'   => ! empty($item['likes']) ? count($item['likes']) : 0,
-            'feeded_at'   => date('Y-m-d H:i:s', strtotime($item['created_time'])),
-        ] + $this->getMedia($item);
+        $url = false;
+        if ( ! empty($item['link']))
+        {
+            $url = $item['link'];
+        }
+        elseif ( ! empty($item['object_id']))
+        {
+            $url = 'https://www.facebook.com/' . $item['object_id'];
+        }
+
+        if ($url !== false)
+        {
+            return [
+                'type'        => 'facebook',
+                'type_id'     => $item['id'],
+                'account_id'  => $accountId,
+                'url'         => $url,
+                'title'       => null,
+                'content'     => $this->getContent($item),
+                'favorites'   => ! empty($item['likes']) ? count($item['likes']) : 0,
+                'feeded_at'   => date('Y-m-d H:i:s', strtotime($item['created_time'])),
+            ] + $this->getMedia($item);
+        }
+
+        return false;
     }
 
     private function getContent($item)

@@ -19,7 +19,11 @@ abstract class AbstractFetcher implements FetcherInterface {
             {
                 foreach ($items as $item)
                 {
-                    $socialItems[] = $this->parseItem($item, $account['id']);
+                    $parsedItem = $this->parseItem($item, $account['id']);
+                    if ( ! empty($parsedItem))
+                    {
+                        $socialItems[] = $parsedItem;
+                    }
                 }
             }
         }
